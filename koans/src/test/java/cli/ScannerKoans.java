@@ -31,7 +31,7 @@ class ScannerKoans {
         fakeKeyboardInput("input");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.next()).isEqualTo(__);
+        assertThat(scanner.next()).isEqualTo("input");
 
         scanner.close();
     }
@@ -41,10 +41,10 @@ class ScannerKoans {
         fakeKeyboardInput("multiple words in stdin");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
+        assertThat(scanner.next()).isEqualTo("multiple");
+        assertThat(scanner.next()).isEqualTo("words");
+        assertThat(scanner.next()).isEqualTo("in");
+        assertThat(scanner.next()).isEqualTo("stdin");
 
         scanner.close();
     }
@@ -56,10 +56,10 @@ class ScannerKoans {
 
         scanner.useDelimiter(",");
 
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
-        assertThat(scanner.next()).isEqualTo(__);
+        assertThat(scanner.next()).isEqualTo("multiple");
+        assertThat(scanner.next()).isEqualTo("words");
+        assertThat(scanner.next()).isEqualTo("in");
+        assertThat(scanner.next()).isEqualTo("stdin");
 
         scanner.close();
     }
@@ -81,7 +81,7 @@ class ScannerKoans {
         fakeKeyboardInput("multiple");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.hasNext()).isEqualTo(__);
+        assertThat(scanner.hasNext()).isEqualTo(true);
 
         scanner.close();
     }
@@ -91,8 +91,8 @@ class ScannerKoans {
         fakeKeyboardInput("multiple words in stdin\n");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.hasNextLine()).isEqualTo(__);
-        assertThat(scanner.nextLine()).isEqualTo(__);
+        assertThat(scanner.hasNextLine()).isEqualTo(true);
+        assertThat(scanner.nextLine()).isEqualTo("multiple words in stdin");
 
         scanner.close();
     }
@@ -102,8 +102,8 @@ class ScannerKoans {
         fakeKeyboardInput("3");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.hasNextInt()).isEqualTo(__);
-        assertThat(scanner.nextInt()).isEqualTo(__);
+        assertThat(scanner.hasNextInt()).isEqualTo(true);
+        assertThat(scanner.nextInt()).isEqualTo(3);
         // Next methods exist for standard types (boolean, double, ...)
 
         scanner.close();
@@ -114,9 +114,9 @@ class ScannerKoans {
         fakeKeyboardInput("cat cats catz");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
+        assertThat(scanner.next("cat[sz]?")).isEqualTo("cat");
+        assertThat(scanner.next("cat[sz]?")).isEqualTo("cats");
+        assertThat(scanner.next("cat[sz]?")).isEqualTo("catz");
 
         scanner.close();
     }
@@ -126,9 +126,9 @@ class ScannerKoans {
         fakeKeyboardInput("cat catch");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
+        assertThat(scanner.next("cat[sz]?")).isEqualTo("cat");
         // __
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
+        assertThat(scanner.next("catch[ch]?")).isEqualTo("catch");
         // __
 
         scanner.close();
@@ -139,8 +139,8 @@ class ScannerKoans {
         fakeKeyboardInput("cat catch");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.next("cat[sz]?")).isEqualTo(__);
-        assertThat(scanner.hasNext("cat[sz]?")).isEqualTo(__);
+        assertThat(scanner.next("cat[sz]?")).isEqualTo("cat");
+        assertThat(scanner.hasNext("cat[sz]?")).isEqualTo(false);
 
         scanner.close();
     }
@@ -150,9 +150,9 @@ class ScannerKoans {
         fakeKeyboardInput("One cat, two cats, three catz.");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo(__);
-        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo(__);
-        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo(__);
+        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo("cat");
+        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo("cats");
+        assertThat(scanner.findInLine("cat[sz]?")).isEqualTo("catz");
 
         scanner.close();
     }
@@ -162,7 +162,7 @@ class ScannerKoans {
         fakeKeyboardInput("One cat, two cats, three catz.");
         Scanner scanner = new Scanner(System.in);
 
-        assertThat(scanner.findInLine("dog[sz]?")).isEqualTo("dog");
+        assertThat(scanner.findInLine("dog[sz]?")).isEqualTo(__);
 
         scanner.close();
     }
@@ -174,9 +174,9 @@ class ScannerKoans {
 
         String[] cats = scanner.findAll("cat[sz]?").map(MatchResult::group).toArray(String[]::new);
 
-        assertThat(cats[0]).isEqualTo(__);
-        assertThat(cats[1]).isEqualTo(__);
-        assertThat(cats[2]).isEqualTo(__);
+        assertThat(cats[0]).isEqualTo("cat");
+        assertThat(cats[1]).isEqualTo("cats");
+        assertThat(cats[2]).isEqualTo("catz");
 
         scanner.close();
     }
@@ -186,7 +186,7 @@ class ScannerKoans {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream("This is a stream".getBytes());
         Scanner scanner = new Scanner(byteArrayInputStream);
 
-        assertThat(scanner.nextLine()).isEqualTo(__);
+        assertThat(scanner.nextLine()).isEqualTo("This is a stream");
 
         scanner.close();
     }

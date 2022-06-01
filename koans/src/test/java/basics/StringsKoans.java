@@ -178,7 +178,7 @@ class StringsKoans {
 
     @Koan
     void extra_arguments_to_string_format_get_ignored() {
-        assertThat(String.format("%s %s %s", "a", "b", "c", "d")).isEqualTo(__);
+        assertThat(String.format("%s %s %s", "a", "b", "c", "d")).isEqualTo("a b c");
     }
 
     @Koan
@@ -188,22 +188,22 @@ class StringsKoans {
             fail("This failure event is never reached!");
         } catch (Exception e) {
             assertThat(e.getClass()).isEqualTo(__);
-            assertThat(e.getMessage()).isEqualTo(__);
+            assertThat(e.getMessage()).isEqualTo("This failure event is never reached!");// not correct
         }
     }
 
     @Koan
     void readable_string_formatting_with_message_format() {
-        assertThat(MessageFormat.format("{0} {1} {0}", "a", "b")).isEqualTo(__);
+        assertThat(MessageFormat.format("{0} {1} {0}", "a", "b")).isEqualTo("a b a");
     }
 
     @Koan
     void extra_arguments_to_message_format_get_ignored() {
-        assertThat(MessageFormat.format("{0} {1} {0}", "a", "b", "c")).isEqualTo(__);
+        assertThat(MessageFormat.format("{0} {1} {0}", "a", "b", "c")).isEqualTo("a b a");
     }
 
     @Koan
     void insufficient_arguments_to_message_format_does_not_replace_the_token() {
-        assertThat(MessageFormat.format("{0} {1} {0}", "a")).isEqualTo(__);
+        assertThat(MessageFormat.format("{0} {1} {0}", "a")).isEqualTo("a {1} a");
     }
 }

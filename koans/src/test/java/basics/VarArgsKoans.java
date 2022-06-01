@@ -28,22 +28,22 @@ class VarArgsKoans {
 
     @Koan
     void var_args_can_be_treated_as_arrays() {
-        assertThat(canBeTreatedAsArray(1, 2, 3)).isEqualTo(__);
+        assertThat(canBeTreatedAsArray(1, 2, 3)).isEqualTo(true);
     }
 
     @Koan
     void you_can_pass_in_as_many_arguments_as_you_like() {
-        assertThat(getLength(1, 2, 3)).isEqualTo(__);
-        assertThat(getLength(1, 2, 3, 4, 5, 6, 7, 8)).isEqualTo(__);
+        assertThat(getLength(1, 2, 3)).isEqualTo(3);
+        assertThat(getLength(1, 2, 3, 4, 5, 6, 7, 8)).isEqualTo(8);
     }
 
     @Koan
     void you_can_pass_in_zero_arguments_if_you_like() {
-        assertThat(getLength()).isEqualTo(__);
+        assertThat(getLength()).isEqualTo(0);
     }
 
     @Koan
     void you_can_have_other_types_in_the_method_signature() {
-        assertThat(prefixedLength("This is how many items were passed in: ", 1, 2, 3, 4)).isEqualTo(__);
+        assertThat(prefixedLength("This is how many items were passed in: ", 1, 2, 3, 4)).isEqualTo("This is how many items were passed in: 4");
     }
 }

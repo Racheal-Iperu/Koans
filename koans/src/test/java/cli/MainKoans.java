@@ -22,6 +22,6 @@ class MainKoans {
 
         // Use System.exit to return an arbitrary status code to your operating system.
         // If no System.exit call is specified, the default status code is 0.
-        System.exit((int) __);
+        System.exit((int) 0);
     }
 }
