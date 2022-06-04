@@ -25,7 +25,7 @@ class ExceptionsKoans {
             result = "catch";
         }
 
-        assertThat(result).isEqualTo(__);
+        assertThat(result).isEqualTo("catch");
     }
 
     @Koan
@@ -41,7 +41,7 @@ class ExceptionsKoans {
             result += ", finally";
         }
 
-        assertThat(result).isEqualTo(__);
+        assertThat(result).isEqualTo("catch, finally");
     }
 
     @Koan
@@ -54,7 +54,7 @@ class ExceptionsKoans {
             result += ", finally";
         }
 
-        assertThat(result).isEqualTo(__);
+        assertThat(result).isEqualTo("try, finally");
     }
 
     private void doMoreStuff(StringBuilder stringBuilder) {
@@ -74,8 +74,7 @@ class ExceptionsKoans {
         StringBuilder stringBuilder = new StringBuilder();
 
         doMoreStuff(stringBuilder);
-
-        assertThat(stringBuilder.toString()).isEqualTo(__);
+        assertThat(stringBuilder.toString()).isEqualTo("trycatch, finally");
     }
 
     private String doNastyStuff(StringBuilder stringBuilder) {
@@ -96,8 +95,8 @@ class ExceptionsKoans {
     void return_in_finally_block() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        assertThat(doNastyStuff(stringBuilder)).isEqualTo(__);
-        assertThat(stringBuilder.toString()).isEqualTo(__);
+        assertThat(doNastyStuff(stringBuilder)).isEqualTo("from finally");
+        assertThat(stringBuilder.toString()).isEqualTo("from tryfrom catchfrom finally");
     }
 
     private void doUncheckedStuff() {
@@ -133,7 +132,7 @@ class ExceptionsKoans {
             exceptionThrown = "ParentException";
         }
 
-        assertThat(exceptionThrown).isEqualTo(__);
+        assertThat(exceptionThrown).isEqualTo("ChildException");
     }
 
     private int getStringLength(String value) {
@@ -154,7 +153,7 @@ class ExceptionsKoans {
             result += "IllegalArgumentException";
         }
 
-        assertThat(result).isEqualTo(__);
+        assertThat(result).isEqualTo("IllegalArgumentException");
     }
 
     @Koan
@@ -167,6 +166,6 @@ class ExceptionsKoans {
             result += "IllegalArgumentException";
         }
 
-        assertThat(result).isEqualTo(__);
+        assertThat(result).isEqualTo("5");
     }
 }

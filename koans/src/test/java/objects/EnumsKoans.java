@@ -16,9 +16,9 @@ class EnumsKoans {
     void basic_enums() {
         Colors blue = Colors.BLUE;
 
-        assertThat(blue == Colors.BLUE).isEqualTo(__);
-        assertThat(blue == Colors.RED).isEqualTo(__);
-        assertThat(blue instanceof Colors).isEqualTo(__);
+        assertThat(blue == Colors.BLUE).isEqualTo(true);
+        assertThat(blue == Colors.RED).isEqualTo(false);
+        assertThat(blue instanceof Colors).isEqualTo(true);
     }
 
     @Koan
@@ -40,7 +40,7 @@ class EnumsKoans {
 
     @Koan
     void enums_with_attributes() {
-        assertThat(HexadecimalColors.BLUE.hexadecimalValue > HexadecimalColors.RED.hexadecimalValue).isEqualTo(__);
+        assertThat(HexadecimalColors.BLUE.hexadecimalValue > HexadecimalColors.RED.hexadecimalValue).isEqualTo(false);
     }
 
     enum MixableColors {
@@ -59,6 +59,6 @@ class EnumsKoans {
 
     @Koan
     void enums_with_methods() {
-        assertThat(MixableColors.RED.mix(MixableColors.BLUE)).isEqualTo(__);
+        assertThat(MixableColors.RED.mix(MixableColors.BLUE)).isEqualTo(16711935);
     }
 }

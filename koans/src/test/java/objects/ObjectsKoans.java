@@ -11,7 +11,7 @@ class ObjectsKoans {
 
     @Koan
     void new_object_instances_can_be_created_directly() {
-        assertThat(new Object() instanceof Object).isEqualTo(__);
+        assertThat(new Object() instanceof Object).isEqualTo(true);
     }
 
     @Koan
@@ -19,8 +19,8 @@ class ObjectsKoans {
         class Animal {
         }
 
-        assertThat(new Animal() instanceof Animal).isEqualTo(__);
-        assertThat(new Animal() instanceof Object).isEqualTo(__);
+        assertThat(new Animal() instanceof Animal).isEqualTo(true);
+        assertThat(new Animal() instanceof Object).isEqualTo(true);
     }
 
     @Koan
@@ -28,7 +28,7 @@ class ObjectsKoans {
         Object object = new Object();
 
         // Default toString() method uses the class full name as prefix and its memory address as suffix.
-        assertThat(object.toString().startsWith("java.lang.Object@")).isEqualTo(__);
+        assertThat(object.toString().startsWith("java.lang.Object@")).isEqualTo(true);
     }
 
     @Koan
@@ -40,7 +40,7 @@ class ObjectsKoans {
             }
         };
 
-        assertThat(object.toString()).isEqualTo(__);
+        assertThat(object.toString()).isEqualTo("Custom toString");
     }
 
     @Koan
@@ -54,21 +54,21 @@ class ObjectsKoans {
             }
         };
 
-        assertThat(string + object).isEqualTo(__);
+        assertThat(string + object).isEqualTo("haha");
     }
 
     @Koan
     void to_string_can_be_used_with_null_references_when_invoked_implicitly() {
         String string = "string";
 
-        assertThat(string + null).isEqualTo(__);
+        assertThat(string + null).isEqualTo("stringnull");
     }
 
     @Koan
     void all_classes_have_a_default_hash_code_method() {
         Object object = new Object();
 
-        assertThat(object.hashCode() > 0).isEqualTo(__);
+        assertThat(object.hashCode() > 0).isEqualTo(true);
     }
 
     @Koan
@@ -82,7 +82,7 @@ class ObjectsKoans {
             }
         };
 
-        assertThat(object.hashCode()).isEqualTo(__);
+        assertThat(object.hashCode()).isEqualTo(42);
     }
 
     @Koan
@@ -96,15 +96,15 @@ class ObjectsKoans {
             }
         };
 
-        assertThat(object.hashCode()).isEqualTo(__);
-        assertThat(object.hashCode() == System.identityHashCode(object)).isEqualTo(__);
+        assertThat(object.hashCode()).isEqualTo(42);
+        assertThat(object.hashCode() == System.identityHashCode(object)).isEqualTo(false);
     }
 
     @Koan
     void system_hash_code_of_a_null_reference_is_always_zero() {
         Object object = null;
 
-        assertThat(System.identityHashCode(object)).isEqualTo(__);
+        assertThat(System.identityHashCode(object)).isEqualTo(0);
     }
 
     @Koan
@@ -115,7 +115,7 @@ class ObjectsKoans {
 
         User user = new User();
 
-        assertThat(user.age).isEqualTo(__);
+        assertThat(user.age).isEqualTo(18);
     }
 
     @Koan
@@ -130,7 +130,7 @@ class ObjectsKoans {
 
         User user = new User(20);
 
-        assertThat(user.age).isEqualTo(__);
+        assertThat(user.age).isEqualTo(20);
     }
 
     @Koan
@@ -150,8 +150,8 @@ class ObjectsKoans {
         User child = new User(7);
         User adult = new User(33);
 
-        assertThat(child.isAdult()).isEqualTo(__);
-        assertThat(adult.isAdult()).isEqualTo(__);
+        assertThat(child.isAdult()).isEqualTo(false);
+        assertThat(adult.isAdult()).isEqualTo(true);
     }
 
     @Koan
@@ -187,8 +187,8 @@ class ObjectsKoans {
         User child = new User(7);
         User adult = new User(33);
 
-        assertThat(child.toString()).isEqualTo(__);
-        assertThat(adult.toString()).isEqualTo(__);
+        assertThat(child.toString()).isEqualTo("User{age = 7 }");
+        assertThat(adult.toString()).isEqualTo("User{age = 33 }");
 
         assertThat(child.equals(adult)).isEqualTo(__);
         assertThat(child.equals(child)).isEqualTo(__);
