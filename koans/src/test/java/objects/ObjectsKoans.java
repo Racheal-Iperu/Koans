@@ -187,14 +187,14 @@ class ObjectsKoans {
         User child = new User(7);
         User adult = new User(33);
 
-        assertThat(child.toString()).isEqualTo("User{age = 7 }");
-        assertThat(adult.toString()).isEqualTo("User{age = 33 }");
+        assertThat(child.toString()).isEqualTo("User{age=7}");
+        assertThat(adult.toString()).isEqualTo("User{age=33}");
 
-        assertThat(child.equals(adult)).isEqualTo(__);
-        assertThat(child.equals(child)).isEqualTo(__);
+        assertThat(child.equals(adult)).isEqualTo(false);
+        assertThat(child.equals(child)).isEqualTo(true);
 
-        assertThat(child.hashCode()).isEqualTo(__);
-        assertThat(adult.hashCode()).isEqualTo(__);
+        assertThat(child.hashCode()).isEqualTo(7);
+        assertThat(adult.hashCode()).isEqualTo(33);
     }
 
     @Koan
@@ -204,6 +204,6 @@ class ObjectsKoans {
         // Some of the concepts demonstrated here are subject to their own koans.
         final User user = User.of(18);
 
-        assertThat(user.isAdult()).isEqualTo(__);
+        assertThat(user.isAdult()).isEqualTo(false);
     }
 }

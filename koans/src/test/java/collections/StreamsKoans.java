@@ -14,7 +14,7 @@ import static java.util.stream.Collector.Characteristics.IDENTITY_FINISH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("InnerClassMayBeStatic")
-class StreamsKoans extends OnlineStore {
+class  StreamsKoans extends OnlineStore {
 
     @Nested
     class Part1 {

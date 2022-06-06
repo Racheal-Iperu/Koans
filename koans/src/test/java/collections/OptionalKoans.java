@@ -24,7 +24,7 @@ class OptionalKoans {
 
     @Koan
     void an_optional_is_a_wrapper_of_any_type_allowing_safe_null_manipulation() {
-        Optional<String> lastName = Optional.ofNullable(null);
+        Optional<String> lastName = Optional.ofNullable(null); // used to get an instance of the optional class
 
         assertThat(lastName.isPresent()).isEqualTo(false);
         assertThat(lastName.isEmpty()).isEqualTo(true);

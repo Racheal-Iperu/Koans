@@ -13,7 +13,7 @@ class StringsKoans {
 
     @Koan
     void strings_are_implicit_objects() {
-        assertThat("just a plain ole string".getClass()).isEqualTo(__);
+        assertThat("just a plain ole string".getClass()).isEqualTo(String.class);
     }
 
     @Koan
