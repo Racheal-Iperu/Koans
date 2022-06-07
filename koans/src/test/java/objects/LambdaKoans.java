@@ -112,6 +112,6 @@ class LambdaKoans {
     void a_lambda_body_is_lazily_initialized() {
         FailWithMessage failWithMessage = () -> Assertions.fail("If you comment the lambda call, the Assertions.fail(String) method will never be executed.");
 
-        failWithMessage.fail();
+       // failWithMessage.fail();
     }
 }

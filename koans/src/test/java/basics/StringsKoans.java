@@ -187,8 +187,9 @@ class StringsKoans {
             String.format("%s %s %s", "a", "b");
             fail("This failure event is never reached!");
         } catch (Exception e) {
-            assertThat(e.getClass()).isEqualTo(__);
-            assertThat(e.getMessage()).isEqualTo("This failure event is never reached!");// not correct
+
+            assertThat(e.getClass()).isEqualTo(java.util.MissingFormatArgumentException.class);
+            assertThat(e.getMessage()).isEqualTo("Format specifier '%s'");
         }
     }
 

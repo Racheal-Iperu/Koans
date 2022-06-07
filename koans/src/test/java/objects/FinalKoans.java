@@ -119,10 +119,10 @@ class FinalKoans {
 
     @Koan
     void an_interface_cannot_be_marked_final_because_it_is_meant_to_be_implemented() {
-        final Action action = new Action() {
+         Action action = new Action() {
         };
 
-        assertThat(action).isEqualTo(__);
+        assertThat(action.description()).isEqualTo("Default action");
     }
 
     class ImmutableValueHolder {

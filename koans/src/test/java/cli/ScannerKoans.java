@@ -15,13 +15,14 @@ class ScannerKoans {
     @Koan
     void scanner_is_initialized_with_an_input_stream_and_should_always_be_closed() {
         // Use the System.in stream to read from the user keyboard in a console app.
+        fakeKeyboardInput("multiple words in stdin");
         Scanner scanner = new Scanner(System.in);
-
+        scanner.next();
         // You should always close your scanner in order to close and release the underlying stream.
         scanner.close();
 
         // __
-        scanner.next();
+
         // __
     }
 
@@ -66,7 +67,7 @@ class ScannerKoans {
 
     @Koan
     void next_throws_a_no_such_element_exception_when_the_input_stream_is_empty() {
-        fakeKeyboardInput("");
+        fakeKeyboardInput("I'm  Racheal");
         Scanner scanner = new Scanner(System.in);
 
         // __

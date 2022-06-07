@@ -25,7 +25,7 @@ class EnumsKoans {
     void basic_enum_access() {
         Colors[] colorArray = Colors.values();
 
-        assertThat(colorArray[2]).isEqualTo(__); // how should the blue be represented
+        assertThat(colorArray[2]).isEqualTo(Colors.BLUE); // how should the blue be represented
     }
 
     enum HexadecimalColors {

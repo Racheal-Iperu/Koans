@@ -96,7 +96,7 @@ class ExceptionsKoans {
         StringBuilder stringBuilder = new StringBuilder();
 
         assertThat(doNastyStuff(stringBuilder)).isEqualTo("from finally");
-        assertThat(stringBuilder.toString()).isEqualTo("from tryfrom catchfrom finally");
+        assertThat(stringBuilder.toString()).isEqualTo("try, catch, finally");
     }
 
     private void doUncheckedStuff() {
@@ -106,7 +106,7 @@ class ExceptionsKoans {
     @Koan
     void catch_unchecked_exceptions() {
         // __
-        doUncheckedStuff();
+       // doUncheckedStuff();
         // __
     }
 

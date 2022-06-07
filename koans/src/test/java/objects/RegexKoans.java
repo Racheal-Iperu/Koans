@@ -173,12 +173,12 @@ class RegexKoans {
     void you_should_really_learn_about_regex_matches() {
         Pattern pattern = Pattern.compile("^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?/.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?/.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}])$");
 
-        assertThat(pattern.matcher("user@example.com").matches()).isEqualTo(__);
-        assertThat(pattern.matcher("user.name@example.com").matches()).isEqualTo(__);
-        assertThat(pattern.matcher("user.name.with.last.name@example.com").matches()).isEqualTo(__);
-        assertThat(pattern.matcher("user.name+spam@example.com").matches()).isEqualTo(__);
-        assertThat(pattern.matcher("user.last-name@example.com").matches()).isEqualTo(__);
-        assertThat(pattern.matcher("user@example").matches()).isEqualTo(__);
+        assertThat(pattern.matcher("user@example.com").matches()).isEqualTo(true);
+        assertThat(pattern.matcher("user.name@example.com").matches()).isEqualTo(true);
+        assertThat(pattern.matcher("user.name.with.last.name@example.com").matches()).isEqualTo(true);
+        assertThat(pattern.matcher("user.name+spam@example.com").matches()).isEqualTo(true);
+        assertThat(pattern.matcher("user.last-name@example.com").matches()).isEqualTo(true);
+        assertThat(pattern.matcher("user@example").matches()).isEqualTo(true);
     }
 
     @Koan
@@ -186,7 +186,8 @@ class RegexKoans {
         try {
             Pattern.compile("][");
         } catch (final Exception exception) {
-            assertThat(exception.getClass()).isEqualTo(__);
+
+            assertThat(exception.getClass()).isEqualTo(java.util.regex.PatternSyntaxException.class);
         }
     }
 }
