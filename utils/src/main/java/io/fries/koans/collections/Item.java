@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Item {
 
-    private final String name;
-    private final Integer price;
+    public final String name;
+    public final Integer price;
 
     public Item(final String name, final Integer price) {
         this.name = name;

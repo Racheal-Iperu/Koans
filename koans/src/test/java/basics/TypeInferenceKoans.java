@@ -29,7 +29,7 @@ class TypeInferenceKoans {
     void when_the_generic_type_cannot_be_inferred_through_affectation_then_the_object_type_is_used() {
         var strings = new ArrayList<>();
         strings.add("SUCCESS");
-        strings.add(42); // Whut?
+        strings.add(42);
 
         assertThat(strings.get(0) instanceof String).isEqualTo(true);
         assertThat(strings.get(1) instanceof String).isEqualTo(false);

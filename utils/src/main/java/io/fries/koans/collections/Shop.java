@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Shop {
 
     private final String name;
-    private final List<Item> items;
+    public final List<Item> items;
 
     public Shop(final String name, final List<Item> items) {
         this.name = name;

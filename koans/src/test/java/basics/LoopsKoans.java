@@ -181,7 +181,7 @@ class LoopsKoans {
             count += 10;
         }
 
-        assertThat(count).isEqualTo(__);
+        assertThat(count).isEqualTo(8);
     }
 
     @Koan
@@ -199,6 +199,6 @@ class LoopsKoans {
             count += 10;
         }
 
-        assertThat(count).isEqualTo(__);
+        assertThat(count).isEqualTo(3);
     }
 }

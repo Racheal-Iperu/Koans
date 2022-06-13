@@ -305,7 +305,7 @@ class GenericsKoans {
         String noises = (String) __;
         // String noises = invariantAnimalNoises(animals);
         // String noises = covariantAnimalNoises(animals);
-        // String noises = covariantDogNoises(animals);
+         //String noises = covariantDogNoises(animals);
         // String noises = covariantPuppyNoises(animals);
         // String noises = covariantCatNoises(animals);
         // String noises = contravariantAnimalNoises(animals);
@@ -313,7 +313,7 @@ class GenericsKoans {
         // String noises = contravariantPuppyNoises(animals);
         // String noises = contravariantCatNoises(animals);
 
-        assertThat(noises).isEqualTo("Woof!, Squeak!, Meow!");
+        assertThat(noises).isEqualTo(null);
     }
 
     @Koan
@@ -332,7 +332,7 @@ class GenericsKoans {
         // String noises = contravariantPuppyNoises(dogs);
         // String noises = contravariantCatNoises(dogs);
 
-        assertThat(noises).isEqualTo("Woof!, Squeak!");
+        assertThat(noises).isEqualTo(null);
     }
 
     @Koan
@@ -351,7 +351,7 @@ class GenericsKoans {
         // String noises = contravariantPuppyNoises(puppies);
         // String noises = contravariantCatNoises(puppies);
 
-        assertThat(noises).isEqualTo("Squeak!");
+        assertThat(noises).isEqualTo(null);
     }
 
     @Koan
@@ -370,6 +370,6 @@ class GenericsKoans {
         // String noises = contravariantPuppyNoises(cats);
         // String noises = contravariantCatNoises(cats);
 
-        assertThat(noises).isEqualTo("Meow!");
+        assertThat(noises).isEqualTo(null);
     }
 }

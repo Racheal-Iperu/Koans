@@ -285,9 +285,9 @@ class ConditionalsKoans {
             result = "Yes";
         }
 
-        assertThat(result).isEqualTo(__);
-        assertThat(trueCount.count).isEqualTo(__);
-        assertThat(falseCount.count).isEqualTo(__);
+        assertThat(result).isEqualTo("No");
+        assertThat(trueCount.count).isEqualTo(2);
+        assertThat(falseCount.count).isEqualTo(0);
     }
 
     @Koan
@@ -299,6 +299,7 @@ class ConditionalsKoans {
     @Koan
     void greater_or_equal() {
         int x = 1;
+
         assertThat(x >= 1).isEqualTo(true);
     }
 
