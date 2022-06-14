@@ -4,6 +4,7 @@ import io.fries.koans.Koan;
 import io.fries.koans.collections.*;
 import org.junit.jupiter.api.Nested;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -122,9 +123,12 @@ class  StreamsKoans extends OnlineStore {
         @Koan
         void items_customers_want_to_buy() {
             List<Customer> customerList = mall.getCustomers();
- List<String> item = customerList.stream().flatMap(p->p.getWantsToBuy().stream()).collect(Collectors.toList());
+
+// List<String> item = customerList.stream().flatMap(p->p.getWantsToBuy().stream()).collect(Collectors.toList());
             Function<Customer, Stream<Item>> getItemStream =p->p.getWantsToBuy().stream();
-            Stream<String> itemStream =customerList.stream().map(Customer::getWantsToBuy).flatMap(Collection::stream);
+            Stream<String> itemStream =null;//
+            //returns object
+            System.out.println(customerList.stream().map(p->p.wantsToBuy).flatMap(Collection::stream).collect(Collectors.toList()));
 
             assertThat(isLambda(getItemStream)).isTrue();
             List<String> itemList = itemStream.collect(Collectors.toList());
@@ -230,7 +234,7 @@ class  StreamsKoans extends OnlineStore {
         void everyone_wants_something() {
             List<Customer> customerList = mall.getCustomers();
 
-            boolean everyoneWantsSomething = false;
+            boolean everyoneWantsSomething =customerList.stream().noneMatch(p->p.wantsToBuy.isEmpty());
 
             assertThat(everyoneWantsSomething).isTrue();
         }
@@ -362,9 +366,10 @@ class  StreamsKoans extends OnlineStore {
         @Koan
         void how_much_to_buy_all_items() {
             List<Shop> shopList = mall.getShops();
+System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.toList()));
 
-            LongStream priceStream = null;
-            long priceSum = 0;
+            LongStream priceStream = null;//shopList.stream().mapToLong(Shop->Shop.items);
+            long priceSum = 0;//LongStream.sum();
 
             assertThat(priceSum).isEqualTo(60930L);
         }
@@ -381,7 +386,7 @@ class  StreamsKoans extends OnlineStore {
             Stream<Customer> customerStream = mall.getCustomers().stream();
             Stream<Shop> shopStream = mall.getShops().stream();
 
-            List<String> itemListOnSale = null;
+            List<String> itemListOnSale =customerStream.map(Customer::getWantsToBuy);
             Set<String> itemSetNotOnSale = null;
 
             assertThat(itemSetNotOnSale).hasSize(3);
@@ -420,8 +425,9 @@ class  StreamsKoans extends OnlineStore {
             List<Customer> customerList = mall.getCustomers();
 
             Supplier<Object> supplier = ()->customerList.stream().map(Customer::getAge);
-            BiConsumer<Object, String> accumulator = (a,c)->customerList.stream().map(Customer::getName).collect(Collectors.joining(( ","),("") ,""));
-            BinaryOperator<Object> combiner = null;
+            System.out.println(customerList.stream().map(Customer::getName).collect(Collectors.joining(",")));
+            BiConsumer<Object, String> accumulator = null;//(a,c)->customerList.stream().map(Customer::getName).collect(Collectors.joining((",");
+            BinaryOperator<Object> combiner =null;
             Function<Object, String> finisher = null;
 
             Collector<String, ?, String> toCsv = new SimpleCollector<>(
@@ -479,7 +485,7 @@ class  StreamsKoans extends OnlineStore {
         void bit_list_to_bit_string() {
             String bitList = "22-24,9,42-44,11,4,46,14-17,5,2,38-40,33,50,48";
 
-            Collector<String, ?, String> toBitString = null;
+            Collector<String, ?, String> toBitString = null;//bitList.;
 
             String bitString = Arrays.stream(bitList.split(",")).collect(toBitString);
            assertThat(bitString).isEqualTo("01011000101001111000011100000000100001110111010101");
