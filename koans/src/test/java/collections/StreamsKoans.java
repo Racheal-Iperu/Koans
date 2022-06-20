@@ -419,11 +419,13 @@ class  StreamsKoans extends OnlineStore {
         void having_enough_money() {
             Stream<Customer> customerStream = mall.getCustomers().stream();
             Stream<Shop> shopStream = mall.getShops().stream();
+            List<Item> onSale = shopStream.flatMap(shop -> shop.getItems().stream()).collect(Collectors.toList());
 
-
-            Predicate<Customer> havingEnoughMoney = null;
+            Predicate<Customer> havingEnoughMoney =   customer -> customer.getBudget() >= customer.getWantsToBuy().stream().mapToInt(
+                    wantedItem -> onSale.stream().filter(shopItem -> shopItem.getName().equals(wantedItem.getName())).min(Comparator.comparingInt(Item::getPrice)).map(Item::getPrice).orElse(0)
+            ).sum();
             List<String> customerNameList = customerStream.filter(havingEnoughMoney)
-                    .map(Customer::getName).collect(Collectors.toList());;
+                    .map(Customer::getName).collect(Collectors.toList());
 
             assertThat(customerNameList).hasSize(7);
             assertThat(customerNameList).contains("Joe", "Patrick", "Chris", "Kathy", "Alice", "Andrew", "Amy");
@@ -443,19 +445,19 @@ class  StreamsKoans extends OnlineStore {
 
             Supplier<StringJoiner> supplier = ()->new StringJoiner(",", "", "");
 
-            BiConsumer<StringJoiner, String> accumulator = StringJoiner::add;//(a,c)->customerList.stream().map(Customer::getName).collect(Collectors.joining((",");
-            BinaryOperator<Object> combiner =null;
-            Function<Object, String> finisher = StringJoiner::toString;
+            BiConsumer<StringJoiner, String> accumulator = StringJoiner::add;
+            BinaryOperator<StringJoiner> combiner =null;
+            Function<StringJoiner, String> finisher = StringJoiner::toString;
 
-            Collector<String, ?, String> toCsv = new SimpleCollector<>(
-                    supplier,
-                    accumulator,
-                    combiner,
-                    finisher,
-                    Collections.emptySet()
+           Collector<String, ?, String> toCsv = new SimpleCollector<> (
+                   supplier,
+                   accumulator,
+                   combiner,
+                   finisher,
+                   Collections.emptySet()
             );
             String nameAsCsv = customerList.stream().map(Customer::getName).collect(toCsv);
-            assertThat(nameAsCsv).isEqualTo("Joe,Steven,Patrick,Diana,Chris,Kathy,Alice,Andrew,Martin,Amy");
+           assertThat(nameAsCsv).isEqualTo("Joe,Steven,Patrick,Diana,Chris,Kathy,Alice,Andrew,Martin,Amy");
         }
 
         /**
