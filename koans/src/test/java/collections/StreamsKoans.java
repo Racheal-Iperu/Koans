@@ -123,12 +123,14 @@ class  StreamsKoans extends OnlineStore {
         @Koan
         void items_customers_want_to_buy() {
             List<Customer> customerList = mall.getCustomers();
+             //List<Item> items=customerList.stream().flatMap(p->p.wantsToBuy.stream()).collect(Collectors.toList());
+             //System.out.println(items.get(items.size()));
 
-// List<String> item = customerList.stream().flatMap(p->p.getWantsToBuy().stream()).collect(Collectors.toList());
             Function<Customer, Stream<Item>> getItemStream =p->p.getWantsToBuy().stream();
-            Stream<String> itemStream =null;//
-            //returns object
-            System.out.println(customerList.stream().map(p->p.wantsToBuy).flatMap(Collection::stream).collect(Collectors.toList()));
+            Stream<String> itemStream = customerList.stream().flatMap(p->{
+                return p.getWantsToBuy().stream().map(Item::getName);
+            });
+
 
             assertThat(isLambda(getItemStream)).isTrue();
             List<String> itemList = itemStream.collect(Collectors.toList());
@@ -151,9 +153,11 @@ class  StreamsKoans extends OnlineStore {
         void how_many_items_wanted() {
             List<Customer> customerList = mall.getCustomers();
 
-            long sum = customerList.stream().map(Customer::getWantsToBuy).count();// has to be 32
-
-            assertThat(sum).isEqualTo(10L);
+           // long sum = customerList.stream().map(Customer::getWantsToBuy).count();// has to be 32
+            long sum= customerList.stream().flatMap(p->{
+                return p.getWantsToBuy().stream().map(Item::getName);
+            }).count();
+            assertThat(sum).isEqualTo(32L);
         }
 
         /**
@@ -366,10 +370,16 @@ class  StreamsKoans extends OnlineStore {
         @Koan
         void how_much_to_buy_all_items() {
             List<Shop> shopList = mall.getShops();
-System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.toList()));
+//System.out.println(shopList.stream().map(shop-> {
+//    return shop.getItems().stream().map(Item::getPrice);
+//}).collect(Collectors.toList()));
+//System.out.println(shopList.stream().map(Shop::getItems).collect(Collectors.toList()));
+            LongStream priceStream = shopList.stream().flatMapToLong(p->{
+                return p.getItems().stream().mapToLong(Item::getPrice);
+            });
 
-            LongStream priceStream = null;//shopList.stream().mapToLong(Shop->Shop.items);
-            long priceSum = 0;//LongStream.sum();
+            long priceSum = priceStream.sum();
+            System.out.println(priceSum);
 
             assertThat(priceSum).isEqualTo(60930L);
         }
@@ -386,12 +396,18 @@ System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.to
             Stream<Customer> customerStream = mall.getCustomers().stream();
             Stream<Shop> shopStream = mall.getShops().stream();
 
-            List<String> itemListOnSale =customerStream.map(Customer::getWantsToBuy);
-            Set<String> itemSetNotOnSale = null;
+           // System.out.println(customerStream.m);
+
+            List<String> itemListOnSale =shopStream.flatMap(p->{
+                return p.getItems().stream().map(Item::getName);
+            }).collect(Collectors.toList());
+            Set<String> itemSetNotOnSale = customerStream.flatMap(p->{
+                return p.getWantsToBuy().stream().map(Item::getName).filter(Predicate.not(itemListOnSale::contains));
+            }).collect(Collectors.toSet());
 
             assertThat(itemSetNotOnSale).hasSize(3);
             assertThat(itemSetNotOnSale).contains("bag", "pants", "coat");
-        }
+        } 
 
         /**
          * Create a customer's name list including who are having enough money to buy all items they want which is
@@ -404,9 +420,10 @@ System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.to
             Stream<Customer> customerStream = mall.getCustomers().stream();
             Stream<Shop> shopStream = mall.getShops().stream();
 
-            List<Item> onSale = null;
+
             Predicate<Customer> havingEnoughMoney = null;
-            List<String> customerNameList = null;
+            List<String> customerNameList = customerStream.filter(havingEnoughMoney)
+                    .map(Customer::getName).collect(Collectors.toList());;
 
             assertThat(customerNameList).hasSize(7);
             assertThat(customerNameList).contains("Joe", "Patrick", "Chris", "Kathy", "Alice", "Andrew", "Amy");
@@ -424,11 +441,11 @@ System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.to
         void simplest_string_join() {
             List<Customer> customerList = mall.getCustomers();
 
-            Supplier<Object> supplier = ()->customerList.stream().map(Customer::getAge);
-            System.out.println(customerList.stream().map(Customer::getName).collect(Collectors.joining(",")));
-            BiConsumer<Object, String> accumulator = null;//(a,c)->customerList.stream().map(Customer::getName).collect(Collectors.joining((",");
+            Supplier<StringJoiner> supplier = ()->new StringJoiner(",", "", "");
+
+            BiConsumer<StringJoiner, String> accumulator = StringJoiner::add;//(a,c)->customerList.stream().map(Customer::getName).collect(Collectors.joining((",");
             BinaryOperator<Object> combiner =null;
-            Function<Object, String> finisher = null;
+            Function<Object, String> finisher = StringJoiner::toString;
 
             Collector<String, ?, String> toCsv = new SimpleCollector<>(
                     supplier,
@@ -450,10 +467,29 @@ System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.to
         void map_keyed_by_items() {
             List<Customer> customerList = mall.getCustomers();
 
-            Supplier<Object> supplier = null;
-            BiConsumer<Object, Customer> accumulator = null;
-            BinaryOperator<Object> combiner = null;
-            Function<Object, Map<String, Set<String>>> finisher = null;
+            Supplier<Map<String,Set<String>>> supplier = HashMap::new;
+            BiConsumer<Map<String,Set<String>>, Customer> accumulator = (map, customer)->{
+                customer.getWantsToBuy().forEach(
+                        item->{
+                            if(map.containsKey(item.getName())){
+                                map.get(item.getName()).add(customer.getName());
+                            }else{
+                                map.put(item.getName(),Stream.of(customer.getName()).collect(Collectors.toSet()));
+                            }
+                        }
+                );
+            };
+            BinaryOperator<Map<String, Set<String>>> combiner = (left, right) -> {
+                right.forEach((item, customers) -> {
+                    left.merge(item, customers, (oldVal, newVal)->{
+                        oldVal.addAll(newVal);
+                        return oldVal;
+                    });
+                });
+                return left;
+            };
+            Function<Map<String, Set<String>>, Map<String, Set<String>>> finisher = null;
+
 
             Collector<Customer, ?, Map<String, Set<String>>> toItemAsKey = new SimpleCollector<>(
                     supplier,
@@ -485,7 +521,63 @@ System.out.println(shopList.stream().map(Shop->Shop.items).collect(Collectors.to
         void bit_list_to_bit_string() {
             String bitList = "22-24,9,42-44,11,4,46,14-17,5,2,38-40,33,50,48";
 
-            Collector<String, ?, String> toBitString = null;//bitList.;
+            Collector<String, ?, String> toBitString = new Collector<String, List<Integer>, String>() {
+                @Override public Supplier<List<Integer>> supplier() {
+                    return ArrayList::new;
+                }
+
+                @Override public BiConsumer<List<Integer>, String> accumulator() {
+                    return (list, str) -> {
+                        List<String> splitString = Arrays.asList(str.split("-"));
+                        List<Integer> splitInt = splitString.stream().map(Integer::valueOf).collect(Collectors.toList());
+                        if (splitInt.size() > 1) {
+                            list.addAll(Stream.iterate(splitInt.get(0), e -> ++e)
+                                    .limit(splitInt.get(1) - splitInt.get(0) + 1)
+                                    .collect(Collectors.toList()));
+                        } else {
+                            list.add(splitInt.get(0));
+                        }
+                    };
+                }
+
+                @Override public BinaryOperator<List<Integer>> combiner() {
+                    return null;
+                }
+
+                @Override public Function<List<Integer>, String> finisher() {
+                    return list -> {
+                        long max = list.stream().max(Comparator.naturalOrder()).get();
+                        return list.stream().distinct().collect(
+                                new Collector<Integer, List<String>, String>() {
+                                    @Override public Supplier<List<String>> supplier() {
+                                        return () -> Stream.generate(() -> "0")
+                                                .limit(max)
+                                                .collect(Collectors.toList());
+                                    }
+
+                                    @Override public BiConsumer<List<String>, Integer> accumulator() {
+                                        return (strList, nth) -> strList.set(nth - 1, "1");
+                                    }
+
+                                    @Override public BinaryOperator<List<String>> combiner() {
+                                        return null;
+                                    }
+
+                                    @Override public Function<List<String>, String> finisher() {
+                                        return strList -> strList.stream().collect(Collectors.joining());
+                                    }
+
+                                    @Override public Set<Characteristics> characteristics() {
+                                        return Collections.emptySet();
+                                    }
+                                });
+                    };
+                }
+
+                @Override public Set<Characteristics> characteristics() {
+                    return Collections.emptySet();
+                }
+            };
 
             String bitString = Arrays.stream(bitList.split(",")).collect(toBitString);
            assertThat(bitString).isEqualTo("01011000101001111000011100000000100001110111010101");
